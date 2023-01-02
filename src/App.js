@@ -1,33 +1,42 @@
-import React, { useState } from "react";
-
-const heavyWork = () => {
-  console.log("엄청 무거운 작업!!!");
-  return ["홍길동", "이상현"];
-};
+import React, { useState, useEffect } from "react";
 
 function App() {
-  const [names, setNames] = useState(() => {
-    return heavyWork();
-  });
-  const [input, setInput] = useState("");
-  const handleInputChange = (e) => {
-    setInput(e.target.value);
+  const [count, setCount] = useState(1);
+  const [name, setName] = useState("");
+
+  const handleCountUpdate = () => {
+    setCount(count + 1);
   };
 
-  const handleUpload = () => {
-    setNames((prevState) => {
-      console.log("이전 state: ", prevState);
-      return [input, ...prevState];
-    });
+  // //렌더링마다 매번 실행됨 - 렌더링 이후
+  // useEffect(() => {
+  //   console.log("렌더링 🔥");
+  // });
+
+  // // 마운팅 + count가 변화할대마다 실행됨
+  // useEffect(() => {
+  //   console.log("count 변화🛁");
+  // }, [count]);
+
+  // // 마운팅 + name이 변경될때마다 실행됨
+  // useEffect(() => {
+  //   console.log("name이 변화🔆");
+  // }, [name]);
+
+  useEffect(() => {
+    console.log("마운팅 🐶");
+  }, []);
+
+  const handleInputChange = (e) => {
+    setName(e.target.value);
   };
 
   return (
     <div>
-      <input type="text" value={input} onChange={handleInputChange} />
-      <button onClick={handleUpload}>Upload</button>
-      {names.map((name, idx) => {
-        return <p key={idx}>{name}</p>;
-      })}
+      <button onClick={handleCountUpdate}>Update</button>
+      <span>count: {count}</span>
+      <input type="text" value={name} onChange={handleInputChange} />
+      <span>name: {name}</span>
     </div>
   );
 }
