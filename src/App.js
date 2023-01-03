@@ -1,14 +1,17 @@
-import React, { useState, useEffect } from "react";
-import Timer from "./component/Timer";
-
+import React, { useState } from "react";
+import "./App.css";
+import Page from "./components/Page";
+import { ThemContext } from "./context/ThemeContext"
+import { UserContext } from "./context/UserContext";
 function App() {
-  const [showTimer, setShowTimer] = useState(false);
+  const [isDark, setIsDark] = useState(false);
 
   return (
-    <div>
-      {showTimer && <Timer />}
-      <button onClick={() => setShowTimer(!showTimer)}>Toggle Timer</button>
-    </div>
+    <UserContext.Provider value={"사용자"}>
+    <ThemeContext.Provider value={{ isDark, setIsDark }}>
+    <Page />
+    <ThemeContext.Provider />
+    </UserContext.Provider>
   );
 }
 
